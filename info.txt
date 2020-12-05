@@ -1,0 +1,16 @@
+#
+icon from freepik@flaticons.com
+
+# tkinter(inbuilt module)[GUI]:
+
+Tkinter Course @freeCodeCamp.org (https://youtu.be/YXPyB4XeYLA)
+
+#sqlite3 (inbuilt module)[Database]:
+
+https://docs.python.org/3/library/sqlite3.html
+
+#ttkthemes (downloaded module via pip)[Styling]:
+
+https://ttkthemes.readthedocs.io/en/latest/index.html
+
+
