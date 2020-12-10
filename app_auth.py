@@ -7,7 +7,7 @@ import os
 app = tk.ThemedTk() 
 app.get_themes()
 app.set_theme("yaru")
-app.iconbitmap(r'libmanager.ico')
+app.iconbitmap(r'@libmanager.xbm')  #added .xbm for linux support
 app.title("login")
 
 def Login():

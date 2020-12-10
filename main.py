@@ -147,6 +147,6 @@ gettool_list()
 root.geometry("710x375")
 root.title("Library Manager")
 root.resizable(0,0)
-root.iconbitmap(r'libmanager.ico')
+root.iconbitmap(r'@libmanager.xbm') #added .xbm for Linux Run
 
 root.mainloop()
