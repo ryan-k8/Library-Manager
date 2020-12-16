@@ -3,6 +3,7 @@ from tkinter import ttk
 from ttkthemes import themed_tk as tk
 from tkinter import messagebox
 import os
+import bcrypt
 
 app = tk.ThemedTk() 
 app.get_themes()
@@ -10,9 +11,13 @@ app.set_theme("yaru")
 app.iconbitmap(r'libmanager.ico')  #restored to 1st commit code
 app.title("login")
 
+salt = b'$2b$12$itFgvfAw3zo0kHnzwfoRlO'
+hashed_pw = bcrypt.hashpw('vps$lib'.encode('utf-8'),salt)
+
 def Login():
-    x = password_unsecured.get()
-    if x == "vps$2020lib":
+    x = password_unsecured.get().encode('utf-8')
+    if hashed_pw == bcrypt.hashpw(x,hashed_pw):
+
         try:
              print("correct password was entered.")
              messagebox.showinfo("Login Successful","You have successfully logged in.")

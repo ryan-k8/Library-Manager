@@ -1,3 +1,4 @@
+import logging 
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -5,29 +6,41 @@ from ttkthemes import themed_tk as tk
 from database import Database
 
 db = Database('school.db')
+logging.basicConfig(level=logging.DEBUG,filename='logs.log',format='%(asctime)s : %(levelname)s : %(message)s ')
 
-def gettool_list(): # responsible for getting data into the listbox widget
-    listb.delete(0,END)   #deletes entire data to resolve duplication error due to multi fn call
-    for row in db.fetch():
-        listb.insert(END,row)
+def gettool_list():
+    try:
+        listb.delete(0,END)   #deletes entire data to resolve duplication error due to multi fn call
+        for row in db.fetch():
+            listb.insert(END,row) # responsible for getting data into the listbox widget
+    except:
+        logging.error('gettool_list() function')
 
 
 def add_entries():
-    if title_txt.get() == '' or author_txt.get() == '' or  borrower_txt.get()== '' or doi_txt.get() == '' or price_txt.get() == '':
-        messagebox.showerror('Error','Please Fill out all fields')
-        return
-    db.insert(title_txt.get(),author_txt.get(),borrower_txt.get(),doi_txt.get(),price_txt.get(),dor_txt.get())
-    listb.delete(0,END)
-    listb.insert(END,(title_txt.get(),author_txt.get(),borrower_txt.get(),doi_txt.get(),price_txt.get(),dor_txt.get()))
-    
-    clear_fields()
-    gettool_list()
+    try:
+
+        if title_txt.get() == '' or author_txt.get() == '' or  borrower_txt.get()== '' or doi_txt.get() == '' or price_txt.get() == '':
+
+           messagebox.showerror('Error','Please Fill out all fields')
+           return
+        db.insert(title_txt.get(),author_txt.get(),borrower_txt.get(),doi_txt.get(),price_txt.get(),dor_txt.get())
+        listb.delete(0,END)
+        listb.insert(END,(title_txt.get(),author_txt.get(),borrower_txt.get(),doi_txt.get(),price_txt.get(),dor_txt.get()))
+
+        clear_fields()
+        gettool_list()
+    except:
+        logging.error('add_entries() function')
 
 def  selection(event):
-    global cur_selection
-    index = listb.curselection()[0]
-    cur_selection = listb.get(index)
-    print(cur_selection)
+    try:
+        global cur_selection
+        index = listb.curselection()[0]
+        cur_selection = listb.get(index)
+        print(cur_selection)
+    except:
+        logging.error('selection() probably tuple index error')
 
     title_entry.delete(0,END)
     title_entry.insert(END,cur_selection[1])
@@ -49,22 +62,30 @@ def  selection(event):
 
 
 def remove_entries():
-    db.remove(cur_selection[0])
-    clear_fields()
-    gettool_list()
+    try:  
+        db.remove(cur_selection[0])
+        clear_fields()
+        gettool_list()
+    except:
+        logging.error('remove_entries')
 
 def update_entries():
-    db.update(cur_selection[0],title_txt.get(),author_txt.get(),borrower_txt.get(),doi_txt.get(),price_txt.get(),dor_txt.get())
-    gettool_list()
+    try:
+        db.update(cur_selection[0],title_txt.get(),author_txt.get(),borrower_txt.get(),doi_txt.get(),price_txt.get(),dor_txt.get())
+        gettool_list()
+    except:
+        logging.error('remove_entries')
 
 def clear_fields():
-    title_entry.delete(0,END)
-    author_entry.delete(0,END)
-    borrower_entry.delete(0,END)
-    doi_entry.delete(0,END)
-    price_entry.delete(0,END)
-    dor_entry.delete(0,END)
-
+    try:
+        title_entry.delete(0,END)
+        author_entry.delete(0,END)
+        borrower_entry.delete(0,END)
+        doi_entry.delete(0,END)
+        price_entry.delete(0,END)
+        dor_entry.delete(0,END)
+    except:
+        logging.error('')
 root = tk.ThemedTk()
 root.get_themes()
 root.set_theme("yaru")
@@ -147,6 +168,7 @@ gettool_list()
 root.geometry("710x375")
 root.title("Library Manager")
 root.resizable(0,0)
-root.iconbitmap(r'libmanager.ico') #restored to 1st commit code
+root.iconbitmap(r'libmanager.ico') 
+logging.info('Logged into the program')
 
 root.mainloop()
